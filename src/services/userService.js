@@ -14,7 +14,7 @@ exports.createUser = async (userData) => {
     try {
         const createdUser = await createUser(userData)
         //Si existe la variable de arriba, quiere decir que si se creo el usuario
-        if(createdUser) {
+        if (createdUser.success) {
             return {
                 success: true
             }
@@ -35,7 +35,7 @@ exports.findUserByEmail = async (email) => {
     try {
         const found = await findUserByEmail(email)
         //Si existe la variable de arriba, quiere decir que si se creo el usuario
-        if(found.success) {
+        if (found.success) {
             return {
                 success: true,
                 user: found.user
@@ -43,7 +43,7 @@ exports.findUserByEmail = async (email) => {
         }
         return {
             success: false,
-            message: 'Usuario No Encontrado.'
+            message: 'Usuario no encontrado'
         }
     } catch (error) {
         return {
@@ -53,7 +53,7 @@ exports.findUserByEmail = async (email) => {
     }
 }
 
-exports.comparePasswords  = async (plainPassword, hashedPassword) => {
+exports.comparePassword = async (plainPassword, hashedPassword) => {
     try {
         const verifyPassword = await bcrypt.compare(plainPassword, hashedPassword)
         //Va a comparar el password que le llega y hashed password
@@ -71,14 +71,14 @@ exports.comparePasswords  = async (plainPassword, hashedPassword) => {
 exports.generateToken = async (user) => {
     try {
         const token = jwt.sign({
-                //Esto es la informacion que va a llevasr el token.
-                email: user.email,
-                userId: user.id
-            },
-            process.env.TOP_SECRET,
-            { expiresIn: '1h' }
-        ) 
+            //Esto es la informacion que va a llevasr el token.
+            email: user.email, 
+            userId: user.id
+        }, 
+        process.env.TOP_SECRET,
+        { expiresIn: '1h' }
+        )
     } catch (error) {
-        throw new Error('Error al generar el token ME QUEDE EN 26:35 11 ABRIL')
+        throw new Error('Error al generatr el token')
     }
 }

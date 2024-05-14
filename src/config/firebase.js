@@ -6,4 +6,5 @@ const serviceAccount = require('./serviceAccountKey.json') //importamos el archi
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 })
-module.exports = admin
+
+module.exports= admin
