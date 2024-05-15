@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt')
 //Los modelos se ponen en mayuscula
 const jwt = require('jsonwebtoken')
-const { createUser, findUserByEmail } = require('../models/userModel')
+const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser} = require('../models/userModel')
+const { get } = require('../routes/authRoutes')
 //Con lo siguiente le estamos diciendo que vamos a acceder a las variables de entorno de desarrrollo
 require('dotenv').config()
 
@@ -80,5 +81,30 @@ exports.generateToken = async (user) => {
         )
     } catch (error) {
         throw new Error('Error al generatr el token')
+    }
+}
+
+exports.getAllUsers = async () => {
+    try {
+        const users = await getAllUsers()
+        return users
+    } catch (error) {
+        throw new Error('Error Getting Users: ' + error.message)
+    }
+}
+
+exports.deleteUser = async (userId) => {
+    try {
+        await deleteUser(userId)
+    } catch (error) {
+        throw new Error('Error Deleting User' + error.message)
+    }
+}
+
+exports.updateUser = async (userId, userData) => {
+    try {
+        await updateUser(userId, userData)
+    } catch (error) {
+        throw new Error('Error Updating User' + error.message)
     }
 }
