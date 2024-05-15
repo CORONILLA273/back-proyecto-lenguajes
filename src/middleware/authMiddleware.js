@@ -3,9 +3,10 @@ require('dotenv').config()
 
 const authMiddleware = (req, res, next) => {
     const token = req.headers.authorization
-    if(!token) {
+
+    if (!token) {
         return res.status(401).json({
-            message: 'No token Provided'
+            message: 'No Token Provided'
         })
     }
 
@@ -20,7 +21,6 @@ const authMiddleware = (req, res, next) => {
             message: 'Invalid Token'
         })
     }
-
 }
 
 module.exports = authMiddleware
