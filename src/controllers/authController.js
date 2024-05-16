@@ -3,6 +3,8 @@
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
 const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = require('../services/userService')
+const { createStudent, findStudentByEmail, getAllStudents, deleteStudent, updateStudent } = require('../services/studentService')
+
 
 exports.signup = async (req, res) => {
     try {
@@ -125,6 +127,98 @@ exports.deleteUser = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({
 			message: 'Error deleting user',
+			error: error.message
+		})
+	}
+}
+
+// Función para registrar a un estudiante
+exports.registrarEstudiante = async (req, res) => {
+    try {
+        // Codigo para registrarse
+        const { nameStu, classStu, genderStu, emailStu, phoneStu, passwordStu, ageStu, id } = req.body
+        const existingUser = await findStudentByEmail(emailStu)
+        if (existingUser.success) {
+            return res.status(400).json({
+               message: 'El estudiante ya esta registrado'
+            })
+         }
+  
+        const saltRounds = 10
+        const hashedPasswordStu = await bcrypt.hash(passwordStu, saltRounds)
+  
+        const newStudent = {
+			name: nameStu,
+			classStu: classStu,
+			gender: genderStu,
+            email: emailStu,
+			phone: phoneStu,
+            password: hashedPasswordStu,
+			age: ageStu,
+            id: id
+            //Agregar otros campos, esto tambien se hace en el modelo.
+        }
+		console.log('@@ newStudent => ', newStudent)
+
+		const StudentResult = await createStudent(newStudent)
+		console.log('@@@ result => ', StudentResult)
+		if (StudentResult.success) {
+			res.status(201).json({
+				message: 'Usuario Registrado Satisfactoriamente'
+			})
+		} else {
+			res.status(500).json({
+				message: 'Error al registrar usuario'
+			})
+		}
+	} catch (error) {
+		res.status(500).json({
+				message: error.message
+		})
+	}
+}
+
+exports.getAllStudents = async (req, res) => {
+	try {
+		const students = await getAllStudents()
+		res.status(200).json({
+			message: 'Success',
+			student
+		})
+	} catch (error) {
+		res.status(500).json({
+			message: 'Server Error Getting all Students',
+			error: error.message
+		})
+	}
+}
+
+exports.updateStudent = async (req, res) => {
+	try {
+		const studentId = req.params.id
+		const studentData = req.body
+		await updateStudent(studentId, studentData)
+		res.status(200).json({
+			message: 'Student updated successfully'
+		})
+	} catch (error) {
+		res.status(500).json({
+			message: 'Error updating Student',
+			error: error.message
+		})
+	}
+}
+
+exports.deleteStudent = async (req, res) => {
+	try {
+		const studentId = req.params.id
+		await deleteStudent(studentId)
+		res.status(200).json({
+			message: 'Student deleted successfully'
+		})
+	} catch (error) {
+		res.status(500).json({
+			message: 'Error deleting student',
 			error: error.message
 		})
 	}
