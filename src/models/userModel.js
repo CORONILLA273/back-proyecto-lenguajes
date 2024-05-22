@@ -45,7 +45,7 @@ exports.findUserByEmail = async (email) => {
 	try {
 		//Lo que hace esto es que va a intentar algun usuarios dentro de la coleccion
 		// que el correo electronico sea igual al que se esta mandando.
-		const userEmail = await usersCollection.where('email', '==', email).get()
+		const userEmail = await usersCollection.where('schoolEmail', '==', email).get()
 		if (!userEmail.empty) {
 			const userFound = userEmail.docs[0]
 			return {
