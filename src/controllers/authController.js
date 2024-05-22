@@ -6,8 +6,6 @@ const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = req
 const { createStudent, findStudentByEmail, getAllStudents, deleteStudent, updateStudent } = require('../services/studentService')
 const { createTeacher, findTeacherByEmail, getAllTeachers, deleteTeacher, updateTeacher } = require('../services/teacherService')
 
-
-
 exports.signup = async (req, res) => {
     try {
         // Codigo para registrarse
@@ -54,28 +52,26 @@ exports.login = async (req, res) => {
 		const findEmail = await findUserByEmail(email)
 
 		if (!findEmail.success) {
-			res.status(401).json({
-				message: 'Usuario no encontrado' //Mandamos especificamente el error al front
+			 return res.status(401).json({
+				message: 'Usuario no encontrado'
 			})
 		}
-		const user = findEmail.user
-		// console.log('@@@ controller => ', password, user.password)
-		const findPassword = await bcrypt.compare(password, user.password)
-		// console.log('@@@ findPassword => ', findPassword)
 
+		const user = findEmail.user
+		const findPassword = await bcrypt.compare(password, user.password)
 		if (!findPassword) {
 			return res.status(401).json({
-				message: 'Password Incorrecto' //Mandamos especificamente el error al front
+				message: 'Password Incorrecto'
 			})
 		}
 		
-		//Aqui generamos el token, este token va a incluir la informacion del usuario
 		const token = jsonwebtoken.sign({
 			email: user.email,
 			userId: user.id
-		}, process.env.TOP_SECRET, {
+			}, process.env.TOP_SECRET, {
 			expiresIn: '1h'
-		})
+			})
+
 		console.log('@@ token => ', token)
 		res.status(200).json({
 			token: token
