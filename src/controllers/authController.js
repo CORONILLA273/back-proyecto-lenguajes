@@ -9,8 +9,8 @@ const { createTeacher, findTeacherByEmail, getAllTeachers, deleteTeacher, update
 exports.signup = async (req, res) => {
     try {
         // Codigo para registrarse
-        const { email, password, id } = req.body
-        const existingUser = await findUserByEmail(email)
+        const { adminName, schoolName, schoolEmail, password, staffNumber, schoolAddress, id } = req.body
+        const existingUser = await findUserByEmail(schoolEmail)
         if (existingUser.success) {
             return res.status(400).json({
                message: 'El usuario ya esta registrado'
@@ -21,10 +21,13 @@ exports.signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, saltRounds)
   
         const newUser = {
-            email: email,
+            adminName: adminName,
+			schoolName: schoolName,
+			schoolEmail: schoolEmail,
             password: hashedPassword,
+			staffNumber: staffNumber,
+			schoolAddress: schoolAddress, 
             id: id
-            //Agregar otros campos, esto tambien se hace en el modelo.
         }
 
 		const userResult = await createUser(newUser)
