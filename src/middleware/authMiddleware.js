@@ -3,8 +3,9 @@ require('dotenv').config()
 
 const authMiddleware = (req, res, next) => {
     const token = req.headers.authorization
+    const validTok = token.split(' ')
 
-    if (!token) {
+    if (!validTok[1]) {
         return res.status(401).json({
             message: 'No Token Provided'
         })
@@ -12,7 +13,7 @@ const authMiddleware = (req, res, next) => {
 
     try {
         //Cuando es validod pasa a la siguiente funcion
-        const validToken = jwt.verify(token, process.env.TOP_SECRET)
+        const validToken = jwt.verify(validTok[1], process.env.TOP_SECRET)
         //Decodifica el token y verifica los datos del usuario.
         req.userData = validToken
         next()

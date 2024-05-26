@@ -13,7 +13,7 @@ router.put('/:id', authMiddleware, authController.updateUser)
 
 // Rutas para cada acción que se requiere del estudiante
 router.post('/registrar-estudiante', /*authMiddleware,*/authController.registrarEstudiante)
-router.get('/get-all-student', /*authMiddleware,*/ authController.getAllStudents)
+router.get('/get-all-student', authMiddleware, authController.getAllStudents)
 router.delete('/delete-student/:id', /*authMiddleware,*/ authController.deleteStudent)
 router.put('/update-student/:id', authMiddleware, authController.updateStudent)
 

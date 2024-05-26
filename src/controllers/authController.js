@@ -149,13 +149,13 @@ exports.registrarEstudiante = async (req, res) => {
         const hashedPasswordStu = await bcrypt.hash(passwordStu, saltRounds)
   
         const newStudent = {
-			name: nameStu,
+			nameStu: nameStu,
 			classStu: classStu,
-			gender: genderStu,
-            email: emailStu,
-			phone: phoneStu,
-            password: hashedPasswordStu,
-			age: ageStu,
+			genderStu: genderStu,
+            emailStu: emailStu,
+			phoneStu: phoneStu,
+            passwordStu: hashedPasswordStu,
+			ageStu: ageStu,
             id: id
             //Agregar otros campos, esto tambien se hace en el modelo.
         }
@@ -241,13 +241,13 @@ exports.registrarProfesor = async (req, res) => {
         const hashedPasswordTea = await bcrypt.hash(passwordTea, saltRounds)
   
         const newTeacher = {
-			name: nameTea,
-			classStu: classTea,
-			gender: genderTea,
-            email: emailTea,
-			phone: phoneTea,
-            password: hashedPasswordTea,
-			age: ageTea,
+			nameTea: nameTea,
+			classTea: classTea,
+			genderTea: genderTea,
+            emailTea: emailTea,
+			phoneTea: phoneTea,
+            passwordTea: hashedPasswordTea,
+			ageTea: ageTea,
             id: id
             //Agregar otros campos, esto tambien se hace en el modelo.
         }
