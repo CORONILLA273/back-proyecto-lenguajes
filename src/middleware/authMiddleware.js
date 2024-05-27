@@ -2,10 +2,12 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const authMiddleware = (req, res, next) => {
+    console.log(req.headers)
     const token = req.headers.authorization
+    
     const validTok = token.split(' ')
-
-    if (!validTok[1]) {
+    console.log(token, validTok)
+    if (!validTok) {
         return res.status(401).json({
             message: 'No Token Provided'
         })
