@@ -18,8 +18,8 @@ router.delete('/delete-student/:id', /*authMiddleware,*/ authController.deleteSt
 router.put('/update-student/:id', authMiddleware, authController.updateStudent)
 
 // Rutas para cada acción que se requiere del profesor
-router.post('/registrar-profesor', /*authMiddleware,*/ authController.registrarProfesor)
-router.get('/get-all-teachers',/*authMiddleware,*/ authController.getAllTeachers)
+router.post('/registrar-profesor', authMiddleware, authController.registrarProfesor)
+router.get('/get-all-teachers', authMiddleware, authController.getAllTeachers)
 router.delete('/delete-teachers/:id', /*authMiddleware,*/ authController.deleteTeacher)
 router.put('/update-teachers/:id', authMiddleware, authController.updateTeacher)
 

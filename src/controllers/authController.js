@@ -229,7 +229,7 @@ exports.deleteStudent = async (req, res) => {
 exports.registrarProfesor = async (req, res) => {
     try {
         // Codigo para registrarse
-        const { nameTea, classTea, genderTea, emailTea, phoneTea, passwordTea, ageTea, id } = req.body
+        const { nameTea, classTea, designationTea, subjectTea, genderTea, emailTea, phoneTea, passwordTea, id } = req.body
         const existingUser = await findTeacherByEmail(emailTea)
         if (existingUser.success) {
             return res.status(400).json({
@@ -243,11 +243,12 @@ exports.registrarProfesor = async (req, res) => {
         const newTeacher = {
 			nameTea: nameTea,
 			classTea: classTea,
+			subjectTea: subjectTea,
 			genderTea: genderTea,
             emailTea: emailTea,
 			phoneTea: phoneTea,
             passwordTea: hashedPasswordTea,
-			ageTea: ageTea,
+			designationTea: designationTea,
             id: id
             //Agregar otros campos, esto tambien se hace en el modelo.
         }
